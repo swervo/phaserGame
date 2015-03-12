@@ -1,24 +1,39 @@
+/* global define */
+
 define([
     'phaser',
-    'app/states/BootState',
-    'app/states/PreloadState',
-    'app/states/GameState'
+    'app/states/headful/Boot',
+    'app/states/headful/Preload',
+    'app/states/headful/MainIntro',
+    'app/states/headful/MainMenu',
+    'app/states/headless/LevelMaster',
+    'app/states/headful/LevelIntro',
+    'app/states/headful/LevelRound'
 ], function (
     Phaser,
     BootState,
     PreloadState,
-    GameState
-) { 
+    MainIntroState,
+    MainMenuState,
+    LevelMasterState,
+    LevelIntroState,
+    LevelRoundState
+) {
     'use strict';
 
     function Game() {}
     
     Game.prototype = {
         start: function() {
-            var game = new Phaser.Game(800, 600, Phaser.AUTO, '');
+            console.log('== Game start ==');
+            var game = new Phaser.Game(964, 478, Phaser.WEBGL, '');
             game.state.add('Boot', BootState);
             game.state.add('Preload', PreloadState);
-            game.state.add('Game', GameState);
+            game.state.add('MainIntro', MainIntroState);
+            game.state.add('MainMenu', MainMenuState);
+            game.state.add('LevelMaster', LevelMasterState);
+            game.state.add('LevelIntro', LevelIntroState);
+            game.state.add('LevelRound', LevelRoundState);
             game.state.start('Boot');
         }
     };

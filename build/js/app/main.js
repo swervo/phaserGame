@@ -1,8 +1,10 @@
+/* global requirejs */
+
 (function () {
     'use strict';
 
     requirejs.config({
-        baseUrl: "js/",
+        baseUrl: 'js/',
         paths: {
             phaser: 'lib/phaser/phaser',
             underscore: 'lib/underscore/underscore',
@@ -18,11 +20,7 @@
     require([
         'phaser',
         'app/Game'
-    ],
-    function (
-        Phaser,
-        Game
-    ) {
+    ], function (Phaser, Game) {
         var game = new Game();
         game.start();
     });

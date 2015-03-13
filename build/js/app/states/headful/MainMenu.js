@@ -19,10 +19,11 @@ define([
             myText.anchor.set(0.5);
             myText.alpha = 0.5;
 
-            this.enterKey = this.game.input.keyboard
-                .addKey(Phaser.Keyboard.ENTER);
+            // this.enterKey = this.game.input.keyboard
+            //     .addKey(Phaser.Keyboard.ENTER);
 
-            this.enterKey.onDown.add(this.tweenPlayState, this);
+            // this.enterKey.onDown.add(this.tweenPlayState, this);
+            this.tweenPlayState();
         },
         tweenPlayState: function() {
             var tweenMenuMove = this.game.add.tween(myText)

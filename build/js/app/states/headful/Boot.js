@@ -17,6 +17,9 @@ define([
         create: function() {
             // setup game environment
             // scale, input etc..
+            console.log(this.game.scale);
+            // set the game to fit the parent element;
+            this.game.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT;
             this.game.state.start('Preload');
         }
     };

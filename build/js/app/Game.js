@@ -26,7 +26,7 @@ define([
     Game.prototype = {
         start: function() {
             console.log('== Game start ==');
-            var game = new Phaser.Game(964, 478, Phaser.WEBGL, '');
+            var game = new Phaser.Game(1024, 768, Phaser.AUTO, 'game');
             game.state.add('Boot', BootState);
             game.state.add('Preload', PreloadState);
             game.state.add('MainIntro', MainIntroState);

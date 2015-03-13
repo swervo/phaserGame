@@ -7,7 +7,8 @@ define([
     'app/modules/textStyles'
 ], function (Phaser, eventHandler, textStyles) {
     'use strict';
-    var myText, keyboard;
+    var myText, keyboard, add;
+    var scrollSpeed = 500;
 
     function LevelRoundState () {
     }
@@ -17,11 +18,15 @@ define([
             console.log('== Level Round State ==');
             console.log('== Round ' + levelData.round + ' ==');
             keyboard = this.game.input.keyboard;
+            add = this.game.add;
             this.levelData = levelData;
         },
         create: function() {
             this.eventHandler = eventHandler(this.game, this.duck, this.jump);
-
+            this.background = add.tileSprite(0,0, this.world.width, this.world.height, 'wallpaper');
+            this.foreground = add.tileSprite(0,0, this.world.width, this.world.height, 'foreground');
+            this.background.autoScroll(-scrollSpeed, 0);
+            this.foreground.autoScroll(-scrollSpeed/2, 0);
             this.enterKey = keyboard.addKey(Phaser.Keyboard.ENTER);
             this.spaceKey = keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 

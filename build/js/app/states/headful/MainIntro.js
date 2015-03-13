@@ -27,7 +27,7 @@ define([
         },
 
         tweenFadeState: function() {
-            this.game.add.tween(myText).to({alpha: 1}, 2000, Phaser.Easing.Linear.None, true)
+            this.game.add.tween(myText).to({alpha: 1}, 1000, Phaser.Easing.Linear.None, true)
                 .onComplete.add(function() {
                     this.game.state.start('MainMenu');
                 }, this);

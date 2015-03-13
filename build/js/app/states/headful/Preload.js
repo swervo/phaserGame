@@ -11,7 +11,9 @@ define([
         preload: function() {
             // load all game assets
             // images, spritesheets, atlases, audio etc..
-            this.game.load.image('wallpaper', 'assets/highWire.jpg');
+            this.game.load.image('wallpaper', 'assets/wallpapers/sky.png');
+            this.game.load.image('foreground', 'assets/wallpapers/foreground.png');
+            // this.game.load.image('wallpaper', 'assets/highWire.jpg');
 
         },
         create: function() {

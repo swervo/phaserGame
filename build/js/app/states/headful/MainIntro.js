@@ -2,8 +2,8 @@
 
 define([
     'phaser',
-    'app/modules/textStyles'
-], function (Phaser, textStyles) {
+    'app/modules/utils'
+], function (Phaser, utils) {
     'use strict';
     var myText;
 
@@ -20,7 +20,7 @@ define([
 
             myText = this.game.add.text(
                 this.game.world.centerX,
-                this.game.world.centerY, 'Some text', textStyles.base);
+                this.game.world.centerY, 'Some text', utils.textStyles.base);
             myText.anchor.set(0.5);
             myText.alpha = 0.5;
             this.tweenFadeState();

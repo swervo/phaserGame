@@ -2,8 +2,8 @@
 
 define([
     'phaser',
-    'app/modules/textStyles'
-], function (Phaser, textStyles) {
+    'app/modules/utils'
+], function (Phaser, utils) {
     'use strict';
     var myText;
     function MainMenuState() {}
@@ -15,7 +15,7 @@ define([
         create: function() {
             myText = this.game.add.text(
                 this.game.world.centerX,
-                this.game.world.centerY, 'Main menu state', textStyles.base);
+                this.game.world.centerY, 'Main menu state', utils.textStyles.base);
             myText.anchor.set(0.5);
             myText.alpha = 0.5;
 

@@ -13,7 +13,9 @@ define([
             // images, spritesheets, atlases, audio etc..
             this.game.load.image('wallpaper', 'assets/wallpapers/sky.png');
             this.game.load.image('foreground', 'assets/wallpapers/foreground.png');
-            // this.game.load.image('wallpaper', 'assets/highWire.jpg');
+            this.game.load.image('rope', 'assets/rope.png');
+            this.game.load.spritesheet('shopper', 'assets/shopper.png', 170, 226);
+            this.game.load.image('star', 'assets/star.png');
 
         },
         create: function() {

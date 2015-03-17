@@ -11,6 +11,7 @@ define([], function() {
             end: 500,
             distance: 20
         };
+        var game = game;
 
         game.input.onDown.add(function(pointer) {
             startPoint.x = pointer.clientX;
@@ -48,16 +49,16 @@ define([], function() {
 
                 if (direction) {
                     if (direction === 'swipeDown') {
-                        swipeCallback(direction);
+                        swipeCallback.call(pointer.game.state.getCurrentState());
                     }
                 } else {
                     // it's a click
                     console.log('shortswipe');
-                    clickCallback();
+                    clickCallback.call(pointer.game.state.getCurrentState());
                 }
             } else {
                 // it's a click
-                clickCallback();
+                clickCallback.call(pointer.game.state.getCurrentState());
             }
         });
     }

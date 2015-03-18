@@ -14,7 +14,7 @@ define([
             // environment
             this.game.load.image('wallpaper', 'assets/wallpapers/sky.png');
             this.game.load.image('foreground', 'assets/wallpapers/foreground.png');
-            this.game.load.image('rope', 'assets/rope.png');
+            this.game.load.image('ropeSegment', 'assets/ropeSegment.png');
             // controls
             this.game.load.spritesheet('button', 'assets/controls/button.png', 193, 71);
 

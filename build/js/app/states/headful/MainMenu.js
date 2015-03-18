@@ -19,7 +19,7 @@ define([
         create: function() {
             this.game.stage.backgroundColor = '#4b0049';
 
-            this.startButton = this.game.add.button(
+            this.startButton = this.add.button(
                 this.game.world.centerX - 95,
                 460,
                 'button',

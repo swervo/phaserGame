@@ -3,7 +3,7 @@
 define([
     'phaser',
     'app/modules/utils',
-    'app/modules/shopper'
+    'app/prefabs/shopper'
 ], function (Phaser, utils, shopper) {
     'use strict';
     var spriteOffset;

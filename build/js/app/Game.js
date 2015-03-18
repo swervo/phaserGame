@@ -8,7 +8,8 @@ define([
     'app/states/headful/MainMenu',
     'app/states/headless/LevelMaster',
     'app/states/headful/LevelIntro',
-    'app/states/headful/LevelRound'
+    'app/states/headful/LevelRound',
+    'app/states/headful/GameOver'
 ], function (
     Phaser,
     BootState,
@@ -17,7 +18,8 @@ define([
     MainMenuState,
     LevelMasterState,
     LevelIntroState,
-    LevelRoundState
+    LevelRoundState,
+    GameOverState
 ) {
     'use strict';
 
@@ -34,6 +36,7 @@ define([
             game.state.add('LevelMaster', LevelMasterState);
             game.state.add('LevelIntro', LevelIntroState);
             game.state.add('LevelRound', LevelRoundState);
+            game.state.add('GameOver', GameOverState);
             game.state.start('Boot');
         }
     };

@@ -6,8 +6,10 @@ define([
     'app/modules/eventHandler',
     'app/modules/utils',
     'app/prefabs/rope',
-    'app/prefabs/shopper'
-], function (Phaser, eventHandler, utils, Rope, Shopper) {
+    'app/prefabs/lifeCounter',
+    'app/prefabs/shopper',
+    'app/prefabs/star'
+], function (Phaser, eventHandler, utils, Rope, LifeCounter, Shopper, Star) {
     'use strict';
     var myText;
     var SPAWN_RATE = 3.5;
@@ -28,6 +30,7 @@ define([
             this.background = this.add.tileSprite(0,0, this.world.width, this.world.height, 'wallpaper');
             this.foreground = this.add.tileSprite(0,0, this.world.width, this.world.height, 'foreground');
             this.rope = new Rope(this.game, 0, this.world.height * 0.85, this.world.width, 14);
+            this.lifeCounter = new LifeCounter(this.game, this.world.width - 20, 10, 0);
             this.add.existing(this.rope);
             
             myText = this.game.add.text(
@@ -43,6 +46,7 @@ define([
             );
             // and add it to the game
             this.add.existing(this.shopper);
+            this.add.existing(this.lifeCounter);
             
             // do the stars thing
             this.stars = this.add.group();
@@ -50,6 +54,8 @@ define([
         },
         start: function () {
             this.isStarted = true;
+            this.score = 0;
+            this.hits = 0;
             this.background.autoScroll(- utils.scrollspeed, 0);
             this.foreground.autoScroll(- utils.scrollspeed/2, 0);
             this.rope.startScrolling();
@@ -62,16 +68,18 @@ define([
             this.starTimer.timer.start();
         },
         spawnStar: function () {
-            var star = this.stars.create(
-                this.game.width,
-                this.game.height/2,
-                'star'
-            );
-            this.physics.arcade.enableBody(star);
-            star.body.allowGravity = false;
-            star.scored = false;
-            star.body.immovable = false;
-            star.body.velocity.x = -200;
+            var starY = (0.75 * this.game.height) + this.game.rnd.integerInRange(-25, 25);
+            var starX = this.game.width;
+            var star = this.stars.getFirstExists(false);
+            if(!star) {
+                star = new Star(this.game, starX, starY, null);
+                this.stars.add(star);
+            } else {
+                // reset and restart it;
+                star.reset(starX, starY);
+                star.start();
+                
+            }
         },
         walk: function () {
             if (this.isStarted) {
@@ -80,18 +88,47 @@ define([
         },
         update: function () {
             this.physics.arcade.collide(this.shopper, this.rope, this.walk, null, this);
-            this.stars.forEachAlive(function(star) {
-                if (star.x < this.game.world.bounds.left + 100) {
-                    star.kill();
-                }
+            this.stars.forEach(function(star) {
+                this.checkScore(star);
+                this.physics.arcade.collide(star, this.shopper, this.deathHandler, null, this);
             }, this);
-            // console.log(this.stars.countDead());
+        },
+        checkScore: function(star) {
+            if (star.exists && !star.hasScored && star.world.x <= this.shopper.world.x) {
+                star.hasScored = true;
+                this.score++;
+                console.log('score = ' + this.score);
+                // this.scoreText.setText(this.score.toString());
+            }
+        },
+        deathHandler: function(star) {
+            star.flyAway();
+            this.hits++;
+            console.log('star hit ' + this.hits);
+            if (this.hits < 4) {
+                this.lifeCounter.update(this.hits);
+            } else {
+                this.lifeCounter.update(this.hits);
+                // game over;
+                this.isStarted = false;
+                this.shopper.kill();
+                this.stars.callAll('stop');
+                // this.starTimer.timer.stop();
+                this.game.time.events.remove(this.starTimer);
+                this.background.stopScroll();
+                this.foreground.stopScroll();
+                this.rope.stopScroll();
+                console.log(Phaser.Timer.SECOND);
+                this.game.time.events.add(Phaser.Timer.SECOND * 3, this.gameOver, this);
+            }
+        },
+        gameOver: function() {
+            this.game.state.start('GameOver');
         },
         duck: function() {
             console.log('Ducking');
         },
         jump: function() {
-            console.log('Jumping');
             if (this.isStarted) {
                 this.shopper.jump();
             } else {
@@ -102,6 +139,9 @@ define([
             this.game.debug.text('Click anywhere to start', 32, 32);
             // this.game.debug.pointer(this.game.input.mousePointer);
             this.game.debug.spriteBounds(this.shopper);
+            this.stars.forEach(function(star) {
+                this.game.debug.spriteBounds(star);
+            }, this);
         },
         addOneToScore: function() {
             this.levelData.players[0].score++;
@@ -112,6 +152,11 @@ define([
         },
         nextRound: function() {
             this.game.state.start('LevelMaster', true, false, this.levelData);
+        },
+        shutdown: function() {
+            this.shopper.destroy();
+            this.stars.destroy();
+            this.lifeCounter.destroy();
         }
     };
 

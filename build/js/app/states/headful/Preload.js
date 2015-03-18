@@ -11,10 +11,16 @@ define([
         preload: function() {
             // load all game assets
             // images, spritesheets, atlases, audio etc..
+            // environment
             this.game.load.image('wallpaper', 'assets/wallpapers/sky.png');
             this.game.load.image('foreground', 'assets/wallpapers/foreground.png');
             this.game.load.image('rope', 'assets/rope.png');
-            this.game.load.spritesheet('shopper', 'assets/shopper.png', 170, 226);
+            // controls
+            this.game.load.spritesheet('button', 'assets/controls/button.png', 193, 71);
+
+
+            this.game.load.spritesheet('fShopper', 'assets/fShopper.png', 170, 226);
+            this.game.load.spritesheet('mShopper', 'assets/mShopper.png', 170, 226);
             this.game.load.image('star', 'assets/star.png');
 
         },

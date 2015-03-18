@@ -9,11 +9,16 @@ define([], function() {
                 font: '65px Arial',
                 fill: '#FFFFFF',
                 align: 'center'
+            },
+            button: {
+                font: '30px Arial',
+                fill: '#FFFFFF',
+                align: 'center'
             }
         },
+        avatar: undefined,
         scrollspeed: 500,
-        GRAVITY: 900,
-        JUMP: 750
+        GRAVITY: 900
     };
 
     window.utils = utils;

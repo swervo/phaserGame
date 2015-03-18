@@ -9,7 +9,7 @@ define([
 ], function (Phaser, eventHandler, utils, shopper) {
     'use strict';
     var myText, add, shopperSprite;
-    var SPAWN_RATE = 1;
+    var SPAWN_RATE = 3.5;
 
     function LevelRoundState () {
     }
@@ -27,7 +27,7 @@ define([
             this.eventHandler = eventHandler(this.game, this.duck, this.jump);
             this.background = add.tileSprite(0,0, this.world.width, this.world.height, 'wallpaper');
             this.foreground = add.tileSprite(0,0, this.world.width, this.world.height, 'foreground');
-            this.rope = add.sprite(0, this.world.height * 0.85, 'rope');
+            this.rope = add.tileSprite(0, this.world.height * 0.85, this.world.width, 14, 'rope');
             this.physics.arcade.enableBody(this.rope);
             this.rope.body.allowGravity = false;
             this.rope.body.immovable = true;
@@ -38,7 +38,7 @@ define([
             myText.anchor.set(0.5);
             myText.alpha = 0.5;
             // create the shopperSprite;
-            shopperSprite = shopper.init(this);
+            shopperSprite = shopper.init(this, utils.avatar);
             
             // do the stars thing
             this.stars = this.add.group();
@@ -48,6 +48,7 @@ define([
             this.isStarted = true;
             this.background.autoScroll(- utils.scrollspeed, 0);
             this.foreground.autoScroll(- utils.scrollspeed/2, 0);
+            this.rope.autoScroll(- utils.scrollspeed/5, 0);
             this.walk();
             this.starTimer = this.game.time.events.loop(
                 Phaser.Timer.SECOND * SPAWN_RATE,
@@ -75,6 +76,12 @@ define([
         },
         update: function () {
             this.physics.arcade.collide(shopperSprite, this.rope, this.walk, null, this);
+            this.stars.forEachAlive(function(star) {
+                if (star.x < this.game.world.bounds.left + 100) {
+                    star.kill();
+                }
+            }, this);
+            // console.log(this.stars.countDead());
         },
         duck: function() {
             console.log('Ducking');
@@ -86,6 +93,11 @@ define([
             } else {
                 this.start();
             }
+        },
+        render: function() {
+            this.game.debug.text('Click anywhere to start', 32, 32);
+            // this.game.debug.pointer(this.game.input.mousePointer);
+            this.game.debug.spriteBounds(shopperSprite);
         },
         addOneToScore: function() {
             this.levelData.players[0].score++;

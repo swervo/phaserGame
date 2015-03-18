@@ -1,18 +1,17 @@
 /* global define */
 
-define([
-    'app/modules/utils'
-], function(utils) {
+define([], function() {
     'use strict';
     var gameState;
+    var JUMP = 750;
 
-    function init (aGameState) {
+    function init (aGameState, aSprite) {
         gameState = aGameState;
-        var playerHeight = gameState.game.cache.getImage('shopper').height;
+        var playerHeight = gameState.game.cache.getImage(aSprite).height;
         gameState.player = gameState.game.add.sprite(
             gameState.world.width/4,
             ((gameState.world.height * 0.8) - playerHeight),
-            'shopper'
+            aSprite
         );
         gameState.physics.arcade.enableBody(gameState.player);
         gameState.player.body.collideWorldBounds = true;
@@ -26,7 +25,7 @@ define([
     }
 
     function jump () {
-        gameState.player.body.velocity.y = -utils.JUMP;
+        gameState.player.body.velocity.y = -JUMP;
         gameState.player.animations.stop('walk');
         gameState.player.frame = 5;
     }
